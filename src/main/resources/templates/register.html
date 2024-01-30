@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+</head>
+<body>
+<h1>Sign Up</h1>
+<p th:if="${param.error}" class="error">Registration failed</p>
+
+<form th:action="@{/register}" method="post" th:object="${user}">
+    <label for="email">E-mail</label>:
+    <input type="text" id="email" th:field="*{email}" />
+    <br />
+
+    <label for="phone">Phone Number</label>:
+    <input type="text" id="phone" th:field="*{phoneNumber}" />
+    <br />
+
+    <label for="name">Name</label>:
+    <input type="text" id="name" th:field="*{name}" />
+    <br />
+
+    <label for="gender">Gender </label>:
+    <select id="gender" th:field="*{gender}">
+        <option value="NOT_DEFINED" >Not Defined</option>
+        <option value="MALE"        >Male</option>
+        <option value="FEMALE"      >Female</option>
+    </select>
+    <br />
+
+    <label for="date-of-birth">Date of Birth</label>:
+    <input type="date"
+           id="date-of-birth"
+           min="1900-01-01"
+           max="2012-12-31"
+           th:field="*{dateOfBirth}" />
+    <br />
+
+    <label for="password">Password</label>:
+    <input type="password" id="password" th:field="*{password}" />
+    <br />
+
+    <input type="submit" value="Sign Up" />
+    <br />
+</form>
+
+<p>Already have an account?<br />
+<a th:href="@{/login}">Login</a>
+</p>
+</body>
+</html>
