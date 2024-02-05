@@ -42,6 +42,10 @@
     <input type="password" id="password" th:field="*{password}" />
     <br />
 
+    <label for="roles">Roles</label>:
+    <input type="checkbox" id="roles" th:each="role : ${user.getRoles()}" th:value="${role.getViewText()}" th:field="*{roles}" />
+    <br />
+
     <input type="submit" value="Sign Up" />
     <br />
 </form>

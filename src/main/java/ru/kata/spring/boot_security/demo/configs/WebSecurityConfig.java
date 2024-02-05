@@ -3,8 +3,10 @@ package ru.kata.spring.boot_security.demo.configs;
 import jakarta.servlet.FilterChain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +33,7 @@ public class WebSecurityConfig {
     private final UserDetailsService userDetailsService;
 
     public WebSecurityConfig(SuccessUserHandler successUserHandler,
-                             @Qualifier("customUserDetailsService") UserDetailsService userDetailsService) {
+                             UserDetailsService userDetailsService) {
         this.successUserHandler = successUserHandler;
         this.userDetailsService = userDetailsService;
     }
@@ -43,6 +46,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/", "/index", "/login**", "/register**")
                         .permitAll()
                         .requestMatchers("/user**").hasRole("USER")
+                        .requestMatchers("/admin**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginPage("/login")
@@ -74,20 +78,4 @@ public class WebSecurityConfig {
         return provider;
     }
 
-//    @Bean
-//    @SuppressWarnings("deprecation")
-//    public NoOpPasswordEncoder passwordEncoder() {
-//        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-//    }
-//
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http, NoOpPasswordEncoder noOpPasswordEncoder)
-//            throws  Exception {
-//        AuthenticationManagerBuilder authenticationManagerBuilder
-//                = http.getSharedObject(AuthenticationManagerBuilder.class);
-//        authenticationManagerBuilder
-//                .userDetailsService(userDetailsService)
-//                .passwordEncoder(noOpPasswordEncoder);
-//        return authenticationManagerBuilder.build();
-//    }
 }

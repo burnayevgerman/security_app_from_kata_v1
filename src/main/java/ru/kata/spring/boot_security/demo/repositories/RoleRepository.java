@@ -10,9 +10,5 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findUserByEmail(String email);
-
-    @Query("SELECT r FROM Role r JOIN r.users u WHERE u.id = :id")
-    List<Role> getRolesByUserId(long id);
+public interface RoleRepository extends JpaRepository<Role, Long> {
 }

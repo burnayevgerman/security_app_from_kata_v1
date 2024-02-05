@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Users</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>E-mail</th>
+        <th>Phone Number</th>
+        <th>Gender</th>
+        <th>Date of Birth</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getId()}">id</td>
+        <td th:text="${user.getName()}">name</td>
+        <td th:text="${user.getEmail()}">email</td>
+        <td th:text="${user.getPhoneNumber()}">phone</td>
+        <td th:text="${user.getGender()}">gender</td>
+        <td th:text="${#dates.format(user.getDateOfBirth(), 'MM/dd/yyyy')}">birth</td>
+        <td th:each="role : ${user.getRoles()}" th:text="${role.getViewText()}">roles</td>
+        <td>
+            <a th:href="@{'/admin/edit/' + ${user.getId()}}">Edit</a>
+            <br />
+            <a th:href="@{'/admin/delete/' + ${user.getId()}}">Delete</a>
+        </td>
+    </tr>
+</table>
+<form method="post" th:action="@{/logout}">
+    <input type="submit" value="Logout" />
+</form>
+</body>
+</html>
